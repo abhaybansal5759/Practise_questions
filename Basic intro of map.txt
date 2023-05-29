@@ -1,0 +1,167 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// -------------------------basic Intro ----------------------
+
+void basicIntro(){
+  map<int,int> mapBhaiya;
+  // insertion - o(logN)
+  mapBhaiya[2]=3;
+  
+  //updation - o(logN)
+  mapBhaiya[2]=4;
+  mapBhaiya[2]=5;
+  
+  //fetch   - o(logN)
+  cout<<mapBhaiya[2]<<endl; //5
+  cout<<mapBhaiya.count(2)<<endl; //1
+  mapBhaiya.erase(2); // o(logN) //0
+  
+  // cout<<mapBhaiya[2]<<endl;
+  cout<<(mapBhaiya.count(2))<<endl;  //- o(logN)
+  cout<<(mapBhaiya.count(2)?mapBhaiya[2]:-1)<<endl; // return the value
+  cout<<mapBhaiya.size()<<endl; // o(1)
+
+  // key and value ------
+    mapBhaiya[3]=4;
+    mapBhaiya[5]=6;
+    mapBhaiya[9]=10;
+    cout<<mapBhaiya.size()<<endl; // o(1)
+
+  for(auto itr:mapBhaiya){
+    cout<<itr.first<<" "<<itr.second<<endl;
+  }
+
+}
+
+// occurences
+
+void durghatna1(){
+  int n;
+  cout<<"enter"<<endl;
+  cin>>n;
+  vector<int> arr(n,0);
+  for(int i=0;i<n;i++){
+    cin>>arr[i];
+  }
+
+  map<int, int>firstOccur;
+  for(int i=0;i<n;i++){
+    if(! firstOccur.count(arr[i])) // i=1
+      firstOccur[arr[i]]=i; // arr[0]=1
+  }
+  for(auto itr:firstOccur){
+    cout<<itr.first<<" has first occurence at "<<itr.second<<endl;
+  }
+}
+
+// -------------------- how much time occur or frequency ----------------
+
+void durghatna2(){
+  int n;
+  cout<<"enter"<<endl;
+  cin>>n;
+  vector<int> arr(n,0);
+  for(int i=0;i<n;i++){
+    cin>>arr[i];
+  }
+  
+  map<int, int> baar_baar;
+  for(int i=0;i<n;i++){
+    if( baar_baar.count(arr[i])){
+      baar_baar[arr[i]]++ ;
+    }
+    else{
+      baar_baar[arr[i]]=1;
+  }
+}
+for(auto itr:baar_baar){
+  cout<<itr.first<<"has a frequency of"<<itr.second<<endl;
+}
+}
+
+// ----------------------------- sum of pair --------------------------
+
+void durghatna3(){
+   int n;
+  cout<<"enter"<<endl;
+  cin>>n;
+  vector<int> arr(n,0);
+  for(int i=0;i<n;i++)
+    cin>>arr[i];
+  
+int target;
+  cin>>target;
+  map<int,int> freq;
+  for(int i=0;i<n;i++){
+    if(freq.count(target-arr[i])){
+      cout<<"yes"<<endl;
+      return;
+    }
+    if(freq.count(arr[i])){
+      freq[arr[i]]++;
+    }
+    else{
+      freq[arr[i]]=1;
+    }
+  }
+  cout<<"No"<<endl;
+}
+
+// --------------------- return the sum pair count --------------------
+
+void durghatna4(){
+   int n; cin>>n;
+    vector<int> arr(n, 0);
+    for(int i=0;i<n;i++) cin>>arr[i];
+    int target; cin>>target;
+
+  int pairCnt=0;
+  map<int,int>freq;
+  for(int i=0;i<n;i++){
+    if(freq.count(target-arr[i])){
+      pairCnt+=freq[target-arr[i]];
+    }
+    if(freq.count(arr[i])){
+      freq[arr[i]]++;
+    }
+    else{
+      freq[arr[i]]=1;
+    }
+  }
+  cout<<pairCnt<<endl;
+}
+
+//----------------------- prefix sum intro --------------------
+
+#define ll long long int
+void durghatna5(){
+  int n;
+  cin>>n;
+  vector<int> arr(n+1, 0); // for 1 indexing
+    for(int i=0;i<n;i++) cin>>arr[i];
+
+  vector<int>pre(n+1,0);
+  for(ll i=1;i<=n;i++){
+    pre[i]=pre[i-1]+arr[i];
+  }
+
+  ll q;
+  cin>>q;
+  for(ll i=0;i<q;i++){
+    ll l,r;
+    cin>>l>>r;
+    cout<<pre[r]-pre[l-1]<<endl;
+  }
+  
+}
+
+
+int main(){
+  // basicIntro();
+    // durghatna1();
+    // durghatna2();
+    durghatna3();
+    // durghatna4();
+    // durghatna5();
+}

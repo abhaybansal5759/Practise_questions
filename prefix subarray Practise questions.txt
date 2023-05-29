@@ -1,0 +1,203 @@
+// ---------------find max of prefix sum----------------
+
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int main(){
+    
+    ll n; cin>>n;
+    vector<ll> arr(n+1, 0);
+    for(ll i=1;i<=n;i++) cin>>arr[i];
+// ----------------- Maximum Subarray Sum without subarray printing------
+
+  //***********LOGIC **********
+
+  /* Inside the loop, the maximum subsequence sum is calculated as follows:
+At index 1, ispeKitnaMaximumHai = 3 - 0 = 3. Since 3 is greater than ans = -1e18, ans is updated to 3.
+At index 2, ispeKitnaMaximumHai = 1 - 0 = 1. Since 1 is not greater than ans = 3, ans remains unchanged.
+At index 3, ispeKitnaMaximumHai = 6 - 0 = 6. Since 6 is greater than ans = 3, ans is updated to 6.
+At index 4, ispeKitnaMaximumHai = 5 - 0 = 5. Since 5 is not greater than ans = 6, ans remains unchanged.
+At index 5, ispeKitnaMaximumHai = 7 - 0 = 7. Since 7 is greater than ans = 6, ans is updated to 7.
+The final value of ans is 7, which is the maximum sum of any subsequence of arr */
+  
+    #include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int main(){
+    ll n; cin>>n;
+    vector<ll> arr(n+1, 0);
+    for(ll i=1;i<=n;i++) cin>>arr[i];
+
+    vector<ll> pref(n+1, 0);
+    for(ll i=1;i<=n;i++) pref[i]=pref[i-1]+arr[i];
+
+    ll minPrefixSum = 0, ans = -1e18;
+    for(ll i=1;i<=n;i++){
+        ll ispeKitnaMaximumHai = pref[i]-minPrefixSum;
+        // ans = max(ans, ispeKitnaMaximumHai);
+        if(ispeKitnaMaximumHai>ans){
+            ans = ispeKitnaMaximumHai;
+        }
+        if(pref[i]<minPrefixSum){
+            minPrefixSum = pref[i];
+        }
+    }
+
+    cout<<ans<<endl;
+}
+
+
+
+ // -----------------number of subarray with odd sum -------------------
+
+// *************BAsic__idea *****************
+  /*
+  arr=[1,2,3,4,5]
+    no of subarray = 
+    (1),(1,2),(1,3),(1,4),(1,5) = {(1),(1,2),(1,4)}
+    (2),(2,3),(2,4),(2,5) =       {(2,3),(2,5)}
+    (3),(3,4),(3,5) =             {(3),(3,4)}
+    (4),(4,5) =                   {(4,5)}
+    (5) =                         {(5)}
+
+    so total subarray which have odd sum = 9
+    */
+
+  
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+int numOfSubarrays(vector<int>& arr) {
+        ll n = arr.size();
+        vector<ll> pref(n, 0);
+        pref[0]=arr[0];
+        for(ll i=1;i<n;i++) pref[i]=pref[i-1]+arr[i];
+
+        ll oddCnt = 0, evenCnt = 1, ans = 0;
+        for(int endPoint = 0; endPoint<n;endPoint++){
+            if(pref[endPoint]%2==0){
+                //even value hai, odd subtract karna hai
+                ans+=oddCnt;
+                evenCnt++;
+            }
+            else{
+                //odd value hai, even subtract karna
+                ans+=evenCnt;
+                oddCnt++;
+            }
+        }
+        ll MOD = 1e9+7;
+        return ans%MOD;
+}
+  int main(){
+    
+    ll n; cin>>n;
+    vector<int> arr(n);
+    for(ll i=0;i<n;i++) cin>>arr[i];
+    int result = numOfSubarrays(arr);
+    cout << result << endl;
+    return 0;
+
+}
+
+  //----- Maximum Subarray Sum, with subarray printing---------
+
+  #include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int main(){
+    freopen("input.txt", "r" ,stdin);
+    freopen("output.txt", "w" ,stdout);
+
+    ll n; cin>>n;
+    vector<ll> arr(n+1, 0);
+    for(ll i=1;i<=n;i++) cin>>arr[i];
+
+    vector<ll> pref(n+1, 0);
+    for(ll i=1;i<=n;i++) pref[i]=pref[i-1]+arr[i];
+
+    ll minPrefixSum = 0, ans = -1e18;
+    ll minPrefixSumKahaMila = 0, L = -1, R = -1;
+    for(ll i=1;i<=n;i++){
+        ll ispeKitnaMaximumHai = pref[i]-minPrefixSum;
+        // ans = max(ans, ispeKitnaMaximumHai);
+        if(ispeKitnaMaximumHai>ans){
+            ans = ispeKitnaMaximumHai;
+            L = minPrefixSumKahaMila + 1;
+            R = i;
+        }
+        if(pref[i]<minPrefixSum){
+            minPrefixSum = pref[i];
+            minPrefixSumKahaMila = i;
+        }
+    }
+    cout<<ans<<endl;
+    for(ll i=L;i<=R;i++) cout<<arr[i]<<" ";
+    cout<<endl;
+}
+  
+// --------------------if any subarray has sum equal to k -----------
+
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int main(){
+    ll n; cin>>n;
+    vector<ll> arr(n+1, 0);
+    for(ll i=1;i<=n;i++) cin>>arr[i];
+    ll targetSum; cin>>targetSum;
+
+    vector<ll> pref(n+1, 0);
+    for(ll i=1;i<=n;i++) pref[i]=pref[i-1]+arr[i];
+
+    map<ll,ll> apnaMap;
+    apnaMap[0]=1;
+    for(ll i=1;i<=n;i++){
+        if(apnaMap.count(pref[i]-targetSum)){
+            cout<<"YES"<<endl;
+            return 0;
+        }
+        if(apnaMap.count(pref[i])){
+            apnaMap[pref[i]]++;
+        }
+        else{
+            apnaMap[pref[i]]=1;
+        }
+    }
+    cout<<"NO"<<endl;
+}
+  // or 
+  #include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+
+int main(){
+    
+    ll n; cin>>n;
+    vector<ll> arr(n+1, 0);
+    for(ll i=1;i<=n;i++) cin>>arr[i];
+    ll targetSum; cin>>targetSum;
+
+    vector<ll> pref(n+1, 0);
+    for(ll i=1;i<=n;i++) pref[i]=pref[i-1]+arr[i];
+
+    map<ll,ll> apnaMap;
+    apnaMap[0]=1;
+    ll ans = 0;
+    for(ll i=1;i<=n;i++){
+        if(apnaMap.count(pref[i]-targetSum)){
+            ans+=apnaMap[pref[i]-targetSum];
+        }
+        if(apnaMap.count(pref[i])){
+            apnaMap[pref[i]]++;
+        }
+        else{
+            apnaMap[pref[i]]=1;
+        }
+    }
+    cout<<ans<<endl;
+}
